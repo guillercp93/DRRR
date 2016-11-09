@@ -1,0 +1,43 @@
+{
+  "name": "drrr",
+  "version": "1.0.0",
+  "description": "Chat app based in anime Durarara",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillercp93/DRRR.git"
+  },
+  "keywords": [
+    "angular",
+    "nodejs",
+    "mongodb",
+    "chat",
+    "durarara"
+  ],
+  "author": "Guiller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guillercp93/DRRR/issues"
+  },
+  "homepage": "https://github.com/guillercp93/DRRR#readme",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "browserify": "^13.1.1",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "http-status": "^0.2.3",
+    "mongoose": "^4.6.6",
+    "node-gyp": "^3.4.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "serve-favicon": "^2.3.0",
+    "socket.io": "^1.5.1",
+    "stylus": "^0.54.5"
+  }
+}
