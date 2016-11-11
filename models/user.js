@@ -1,3 +1,5 @@
+"use strict";
+
 var mongoose = require('mongoose'),
     bcrypt = require('bcryptjs'),
     SALT_WORK_FACTOR = 10;
@@ -48,30 +50,31 @@ User.pre('save', function(next) {
     //generate salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) {
-            console.log("err 1", err);
             return next(err);
         }
         //hash the password using our new salt
         bcrypt.hash(user.profile.password, salt, function(err, hash) {
             if (err) {
-                console.log("err 2");
                 return next(err);
             }
 
             //override the cleartext password with hashed one
-            user.profile.password = hash
-            console.log(user.profile.password);
-            next();
+            user.profile.password = hash;
+            return next();
         });
     });
 });
 
-User.methods.comparedPassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.profile.password, function(err, isMatch) {
+User.methods.comparedPassword = function(candidatePassword, callback) {
+    var user = this;
+    bcrypt.compare(candidatePassword, user.profile.password, function(err, isMatch) {
         if (err) {
-            return cb(err);
+            return callback(err);
         }
-        cb(null, isMatch);
+        if (!isMatch) {
+            return callback(null, false);
+        }
+        return callback(null, user);
     });
 };
 
