@@ -11,13 +11,15 @@ var express = require("express"),
 	app = express();
 
 app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 app.disable('x-powered-by');
 
 app.use(bodyParser.json());
 app.use(cookieParser("Baccano"));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 4*60*60*1000 })); //available static files for 2h
+app.use('/static', express.static(path.join(__dirname, 'public'), { maxAge: 4*60*60*1000 })); //available static files for 2h
 app.use(session({secret: 'baccano'}));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
