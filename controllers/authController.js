@@ -64,6 +64,7 @@ exports.register = function(req, res) {
 };
 
 exports.update = function(req, res) {
+    console.log(req.params);
     models.User.update({'profile.username': req.params.username}, {
         'profile.email': req.body.email,
         'profile.name': req.body.name,
@@ -82,5 +83,18 @@ exports.update = function(req, res) {
         if (err) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err.message);
         }
+    });
+};
+
+exports.check = function(req, res) {
+    console.log('==>', req.params);
+    models.User.findOne({ 'profile.username' : req.params.username }).then(function(data) {
+        console.log('==>', data);
+        res.json({ response: !data });
+        res.end();
+    }).catch(function(err) {
+        if (err) {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err.message);
+        } 
     });
 };

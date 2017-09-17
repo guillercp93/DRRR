@@ -13,7 +13,7 @@
     "url": "git+https://github.com/guillercp93/DRRR.git"
   },
   "keywords": [
-    "angular",
+    "vue",
     "nodejs",
     "mongodb",
     "chat",
@@ -36,7 +36,9 @@
     "express-session": "1.14.2",
     "http-status": "0.2.3",
     "i18n": "^0.8.3",
+    "method-override": "^2.3.6",
     "mongoose": "4.6.6",
+    "morgan": "^1.7.0",
     "node-gyp": "3.4.0",
     "passport": "0.3.2",
     "passport-facebook": "2.1.1",
@@ -46,7 +48,9 @@
     "stylus": "0.54.5"
   },
   "devDependencies": {
+    "@types/node": "^7.0.12",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-stylus": "^2.6.0"
   }
 }

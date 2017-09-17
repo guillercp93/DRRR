@@ -9,8 +9,20 @@ router.get('/', function(req, res, next) {
     next();
 });
 
+router.get('/partials/:filename', function(req, res, next) {
+    var file = req.params.filename;
+    console.log('========>', file);
+    if (!file) {
+        console.log("no filename");
+        return;
+    }
+    res.render('partials/'+ file);
+    next();
+});
+
 router.post('/auth/login/', authController.login);
-router.put('/auth/create/', authController.register);
+router.post('/auth/create/', authController.register);
+router.get('/auth/check/:username', authController.check);
 router.put('/auth/update/:username', authController.update);
 
 module.exports = router;
