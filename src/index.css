@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'FiraCode'; /*a name to be used later*/
+  src: url('/fonts/FiraCode-Regular.ttf'); /*URL to font*/
+}
+
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  font-family: 'FiraCode';
+  font-variant-ligatures: normal;
+}
