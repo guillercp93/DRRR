@@ -11,7 +11,7 @@ const defaultState = {
     passwordOne: '',
     passwordTwo: '',
     avatar: '/images/avatars/1.png',
-    color: '#ffffff',
+    color: '#b000ff',
     error: null,
 };
 
@@ -86,14 +86,14 @@ class SignUpForm extends Component {
                     <Grid item xs={6} sm={6} md={6} margin="normal">
                         <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
                         <Grid item xs={12} sm={12} md={12} margin="normal">
-                            <Avatar src={this.state.avatar} width="150" color={this.state.color} />
+                            <Avatar src={this.state.avatar} width="150" height="150" color={this.state.color} />
                         </Grid>
                         {
                             [...Array(14).keys()].map(number => {
                                 return (
                                     <Grid item xs={2} sm={2} md={2} margin="normal">
                                         <Avatar src={`/images/avatars/${number + 1}.png`} width="50" key={number}
-                                                color={this.state.color}
+                                                color={this.state.color} height="50"
                                                 onClick={() => this.setState({avatar: `/images/avatars/${number + 1}.png`})} />
                                     </Grid>
                                 );
