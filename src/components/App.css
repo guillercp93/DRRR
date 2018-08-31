@@ -1,7 +1,13 @@
-.App {
-  
-}
+.App {}
 
 .signInForm {
   color: white;
+}
+
+.Avatar {
+  direction: rtl;
+  padding: 0px;
+  background-color: bisque;
+  display: inline-flex;
+  margin: 0px;
 }

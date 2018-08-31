@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { auth } from '../helpers';
 import { Grid, FormControl, InputLabel, Input, Button, Snackbar } from '@material-ui/core';
-
-console.info(auth);
+import { SignUpLink } from './signUp';
 
 const defaultState = {
     email: '',
@@ -12,12 +11,14 @@ const defaultState = {
 }
 
 const SignIn = ({ history }) => (
-    <Grid container direction="column" justify="space-between" alignItems="stretch">
+    <Grid container direction="column" justify="space-between" alignItems="stretch" spacing={16}>
         <Grid item xs={12} sm={12} md={12} style={{ 'textAlign': 'center' }}>
             <img src="/images/logo.jpg" alt="dollars" />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} margin="normal">
-            <SignInForm history={history} />
+        <Grid container direction="row" justify="space-between" alignItems="stretch" spacing={16}>
+            <Grid item xs={12} sm={12} md={12} style={{ 'textAlign': 'center' }}>
+                <SignInForm history={history} />
+            </Grid>
         </Grid>
     </Grid>
 );
@@ -34,7 +35,6 @@ class SignInForm extends Component {
     }
 
     onSubmitEvent(evt) {
-        console.log('to submit');
         evt.preventDefault();
         const { history } = this.props;
         const { email, password } = this.state;
@@ -86,12 +86,14 @@ class SignInForm extends Component {
                         inputProps={{ minLength: 6, maxLength: 15 }}
                         onChange={this.setField} onInvalid={this.checkField} error={!this.state.password} />
                 </FormControl>
-                <Button type="submit" variant="outlined" color="default" style={{ border: '3px solid white' }}>
+                <Button type="submit" variant="outlined" color="default" style={{ border: '3px solid white', margin: '10px auto' }}>
                     Sign in
-                    </Button>
-                <Snackbar name="error" open={this.state.error !== ''} autoHideDuration={9000} 
-                          anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                          onClose={() => this.setState({error: ''})} message={messageError} />
+                </Button>
+                <br />
+                <SignUpLink />
+                <Snackbar name="error" open={this.state.error !== ''} autoHideDuration={9000}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    onClose={() => this.setState({ error: '' })} message={messageError} />
             </form>
         );
     }
