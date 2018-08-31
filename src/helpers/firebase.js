@@ -7,12 +7,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-    apiKey: "AIzaSyBaPc_uA6ib1WCjmUp9ggXnig_O5VZDdxQ",
-    authDomain: "dollars-reactive.firebaseapp.com",
-    databaseURL: "https://dollars-reactive.firebaseio.com",
-    projectId: "dollars-reactive",
-    storageBucket: "dollars-reactive.appspot.com",
-    messagingSenderId: "676805594394"
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: ""
 };
 
 if (!firebase.apps.length) {
