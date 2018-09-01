@@ -5,6 +5,7 @@ import SignUp from './signUp';
 import Chat from './chat';
 import './App.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import withAuthentication from './withAuthentication';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,4 +30,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuthentication(App);

@@ -5,5 +5,5 @@ export const doCreateUser = (id, dataUser) => {
 }
 
 export const onceGetUsers = () => {
-    return db.ref('/users').once('values');
+    return db.ref('/users').once('value');
 }
