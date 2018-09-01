@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { HuePicker } from 'react-color';
 import { Grid, Button, FormControl, InputLabel, Input, Snackbar } from '@material-ui/core';
 import Avatar from './avatar';
-import { auth } from '../helpers';
+import { auth, db } from '../helpers';
 
 const defaultState = {
     username: '',
@@ -15,6 +15,10 @@ const defaultState = {
     error: null,
 };
 
+/**
+ * Component to render the sign up page of the app.
+ * @param {Object} props props from function withRouter
+ */
 const SignUp = ({ history }) => (
     <Grid container direction="column" justify="space-between" alignItems="stretch">
         <Grid item xs={12} sm={12} md={12} margin="normal">
@@ -23,6 +27,9 @@ const SignUp = ({ history }) => (
     </Grid>
 );
 
+/**
+ * Component to redirect a Sign up page
+ */
 const SignUpLink = () => (
     <Link to="/signup">
         <Button type="button" variant="outlined" color="default" style={{ border: '3px solid white' }}>
@@ -31,6 +38,9 @@ const SignUpLink = () => (
     </Link>
 );
 
+/**
+ * Component to render the sign up form, also it send the data to Firebase.
+ */
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
@@ -44,12 +54,21 @@ class SignUpForm extends Component {
     onSubmitEvent(evt) {
         evt.preventDefault();
         const { history } = this.props;
-        const { email, password } = this.state;
+        const { email, passwordOne, username, avatar, color } = this.state;
 
-        auth.doSignInWithEmailAndPassword(email, password)
+        auth.doCreateUserWithEmailAndPassword(email, passwordOne)
+            .then((dataUser) => {
+                return db.doCreateUser(dataUser.user.uid, {
+                    username,
+                    avatar,
+                    color,
+                    email
+                });
+            })
             .then(() => {
                 this.setState({ ...defaultState });
-                history.push('/chat');
+                // redirect to login page
+                history.push('/');
             })
             .catch(error => {
                 this.setState({
@@ -80,6 +99,9 @@ class SignUpForm extends Component {
             </span>
         );
 
+        const disabled = !this.state.username || this.state.passwordOne !== this.state.passwordTwo || !this.state.email || !this.state.passwordOne;
+        console.log(!this.state.username,this.state.passwordOne !== this.state.passwordTwo,!this.state.email,!this.state.passwordOne);
+
         return (
             <form className="signUpForm" onSubmit={this.onSubmitEvent} style={{ padding: '5% 10%' }}>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
@@ -91,8 +113,8 @@ class SignUpForm extends Component {
                         {
                             [...Array(14).keys()].map(number => {
                                 return (
-                                    <Grid item xs={2} sm={2} md={2} margin="normal">
-                                        <Avatar src={`/images/avatars/${number + 1}.png`} width="50" key={number}
+                                    <Grid item xs={2} sm={2} md={2} margin="normal" key={number}>
+                                        <Avatar src={`/images/avatars/${number + 1}.png`} width="50"
                                                 color={this.state.color} height="50"
                                                 onClick={() => this.setState({avatar: `/images/avatars/${number + 1}.png`})} />
                                     </Grid>
@@ -115,13 +137,13 @@ class SignUpForm extends Component {
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="passwordOne">Password (from 6 to 15 characters)</InputLabel>
-                            <Input type="passwordOne" id="passwordOne" name="passwordOne" autoComplete="current-password"
+                            <Input type="password" id="passwordOne" name="passwordOne" autoComplete="current-password"
                                 inputProps={{ minLength: 6, maxLength: 15 }}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.passwordOne} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="passwordTwo">Repeat password</InputLabel>
-                            <Input type="passwordTwo" id="passwordTwo" name="passwordTwo" autoComplete="current-password"
+                            <Input type="password" id="passwordTwo" name="passwordTwo" autoComplete="current-password"
                                 inputProps={{ minLength: 6, maxLength: 15 }}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.passwordTwo} />
                         </FormControl>
@@ -131,7 +153,7 @@ class SignUpForm extends Component {
                                 onChangeComplete={(color, evt) => this.setState({ color: color.hex })} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
-                            <Button type="submit" variant="outlined" color="default"
+                            <Button type="submit" variant="outlined" color="default" disabled={disabled}
                                 style={{ border: '3px solid white', margin: '10px auto' }}>
                                 Sign up
                             </Button>
@@ -147,7 +169,7 @@ class SignUpForm extends Component {
 }
 
 
-export default SignUp;
+export default withRouter(SignUp);
 
 export {
     SignUpLink,
