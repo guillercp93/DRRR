@@ -10,8 +10,8 @@ const Avatar = (props) => {
     }
     
     return (
-        <figure className="Avatar" onClick={props.onClick} style={style}>
-            <img src={props.src} alt={props.alt} width={props.width} height={props.height} />
+        <figure className="Avatar" onClick={props.onClick}>
+            <img src={props.src} alt={props.alt} width={props.width} height={props.height} style={style}/>
         </figure>
     );
 };

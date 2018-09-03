@@ -1,13 +1,81 @@
-.App {}
+.App {
+  margin: 2% 10%;
+}
 
 .signInForm {
   color: white;
 }
 
 .Avatar {
-  direction: rtl;
-  padding: 0px;
   background-color: bisque;
+  border-radius: 10px;
+  direction: rtl;
   display: inline-flex;
   margin: 0px;
+  padding: 0px;
+}
+
+.Avatar>img {
+  border: 5px solid whitesmoke;
+  border-radius: 10px;
+}
+
+.Avatar:hover {
+  box-shadow: 5px 5px 4px rgb(100, 100, 100);
+}
+
+.bubble {
+  width: 100%;
+  position: relative;
+  margin-left: 1%;
+}
+
+.bubble .tail-wrap {
+  position: absolute;
+  float: left;
+  margin: 0;
+  top: 26px;
+  left: -3px;
+  width: 22px;
+  height: 16px;
+  z-index: 1;
+  background-position: 0 -17px !important;
+}
+
+.bubble .tail-wrap .tail-mask {
+  border-top: 0px solid transparent;
+  border-right: 25px solid red;
+  border-bottom: 20px solid transparent;
+}
+
+.bubble .body {
+  /* float: left; */
+  /* clear: left; */
+  padding: 16px 24px;
+  margin: 0 22px 5px;
+  border-radius: 16px;
+  border: 4px solid auto;
+  background-color: red;
+  font-size: 1.1em;
+  line-height: 1.4;
+  color: #fff;
+  /* position: relative; */
+}
+
+.bubble .body,
+.tooltip .tooltip-inner {
+  word-break: break-word;
+}
+
+.MessagesBox {
+  height: 520px;
+  overflow-y: scroll;
+}
+
+.select-text {
+  user-select: text;
+}
+
+#input-message:focus {
+  color: white;
 }
