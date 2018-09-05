@@ -86,7 +86,7 @@ class SignInForm extends Component {
                         inputProps={{ minLength: 6, maxLength: 15 }}
                         onChange={this.setField} onInvalid={this.checkField} error={!this.state.password} />
                 </FormControl>
-                <Button type="submit" variant="outlined" color="default" style={{ border: '3px solid white', margin: '10px auto' }}>
+                <Button type="submit" variant="outlined" color="default">
                     Sign in
                 </Button>
                 <br />

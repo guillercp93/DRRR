@@ -32,7 +32,7 @@ const SignUp = ({ history }) => (
  */
 const SignUpLink = () => (
     <Link to="/signup">
-        <Button type="button" variant="outlined" color="default" style={{ border: '3px solid white' }}>
+        <Button type="button" variant="outlined" color="default">
             Sign up
         </Button>
     </Link>
@@ -99,8 +99,9 @@ class SignUpForm extends Component {
             </span>
         );
 
-        const disabled = !this.state.username || this.state.passwordOne !== this.state.passwordTwo || !this.state.email || !this.state.passwordOne;
-        console.log(!this.state.username,this.state.passwordOne !== this.state.passwordTwo,!this.state.email,!this.state.passwordOne);
+        const disabled = !this.state.username || this.state.passwordOne !==
+                        this.state.passwordTwo || !this.state.email ||
+                        !this.state.passwordOne;
 
         return (
             <form className="signUpForm" onSubmit={this.onSubmitEvent} style={{ padding: '5% 10%' }}>
@@ -153,8 +154,7 @@ class SignUpForm extends Component {
                                 onChangeComplete={(color, evt) => this.setState({ color: color.hex })} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
-                            <Button type="submit" variant="outlined" color="default" disabled={disabled}
-                                style={{ border: '3px solid white', margin: '10px auto' }}>
+                            <Button type="submit" variant="outlined" color="default" disabled={disabled}>
                                 Sign up
                             </Button>
                         </FormControl>

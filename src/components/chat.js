@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Icon, IconButton, InputAdornment, Paper, List, ListItem, ListItemAvatar, 
-        ListItemText, TextField, Typography } from '@material-ui/core';
-import { db } from '../helpers';
+import {
+    Button, Grid, Icon, IconButton, InputAdornment, Paper, List, ListItem,
+    ListItemAvatar, ListItemText, TextField, Typography, Dialog, DialogContent,
+    DialogContentText, DialogTitle, DialogActions
+} from '@material-ui/core';
+import { db, auth } from '../helpers';
 import withAuthorization from './withAuthorization';
 import AuthUserContext from './AuthUserContext';
 import Avatar from './avatar';
@@ -14,13 +17,15 @@ class Chat extends Component {
             users: null,
             members: null,
             inputMessage: '',
+            openModal: false,
             messages: [],
         };
 
         this.sendMessage = this.sendMessage.bind(this);
+        this.handleModal = this.handleModal.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         db.onceGetUsers().then(snapshot =>
             this.setState({ users: snapshot.val() })
         );
@@ -41,46 +46,90 @@ class Chat extends Component {
             this.setState({
                 inputMessage: '',
             });
-        }).catch( error => {
+        }).catch(error => {
             console.error(error);
+        });
+    }
+
+    logout(evt) {
+        evt.preventDefault();
+        auth.doSignOut();
+    }
+
+    handleModal() {
+        this.setState({
+            openModal: !this.state.openModal,
         });
     }
 
     render() {
         return (
             <AuthUserContext.Consumer>
-            { authUser => <Grid container spacing={24} justify="space-evenly"
-                                alignItems="stretch">
-                <Grid item xs={4} sm={3} md={3}>
-                    {!!this.state.users && <UserList users={this.state.users} />}
-                </Grid>
-                <Grid item xs={8} sm={6} md={6}>
-                    {(!!this.state.messages && !!this.state.users) &&
-                        <MessagesBox messages={this.state.messages} users={this.state.users} />}
-                </Grid>
-                <Grid item xs={12} sm={3} md={3}>
-                    <Paper>4</Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    { !!this.state.users && <Message { ...this.state.users[authUser.uid] }>
-                        <TextField id="input-message" label="Write your message"
-                            multiline margin="normal" fullWidth
-                            value={this.state.inputMessage}
-                            onChange={(evt) => this.setState({inputMessage: evt.target.value})}
-                            InputProps={{
-                                endAdornment:
-                                    <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="Toggle password visibility"
-                                        onClick={() => this.sendMessage(authUser)}
-                                    >
-                                        <Icon>send</Icon>
-                                    </IconButton>
-                                    </InputAdornment>
-                            }} />
-                    </Message>}
-                </Grid>
-            </Grid> }
+                {authUser => <Grid container spacing={24} justify="space-evenly"
+                    alignItems="stretch">
+                    <Grid item xs={4} sm={3} md={3}>
+                        {!!this.state.users && <UserList users={this.state.users} />}
+                    </Grid>
+                    <Grid item xs={8} sm={6} md={6}>
+                        {(!!this.state.messages && !!this.state.users) &&
+                            <MessagesBox messages={this.state.messages} users={this.state.users} />}
+                    </Grid>
+                    <Grid item xs={12} sm={3} md={3}>
+                        <Grid container direction="column" justify="center" alignItems="center">
+                            <Button type="button" variant="outlined" color="default"
+                                    onClick={this.handleModal}>
+                                Chat rules
+                            </Button>
+                            <Button type="button" variant="outlined" color="default"
+                                    onClick={this.logout}>
+                                Log out
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {!!this.state.users && <Message {...this.state.users[authUser.uid]}>
+                            <TextField id="input-message" label="Write your message"
+                                multiline margin="normal" fullWidth
+                                value={this.state.inputMessage}
+                                onChange={(evt) => this.setState({ inputMessage: evt.target.value })}
+                                InputProps={{
+                                    endAdornment:
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="Toggle password visibility"
+                                                onClick={() => this.sendMessage(authUser)}
+                                            >
+                                                <Icon>send</Icon>
+                                            </IconButton>
+                                        </InputAdornment>
+                                }} />
+                        </Message>}
+                    </Grid>
+                    <Dialog open={this.state.openModal} onClose={this.handleModal}>
+                        <DialogTitle>Chat rules</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                <h3>Prohibited Acts</h3>
+                                <List component={Paper}>
+                                    <ListItem>Advertising</ListItem>
+                                    <ListItem>Acts violating public order/customs 
+                                        (Racism, bigotry, harassment etc.)</ListItem>
+                                    <ListItem>Acts that violate the rights of other users.</ListItem>
+                                    <ListItem>Acting in violation of the common 
+                                        laws and regulations of government.</ListItem>
+                                    <ListItem>Criminal acts and conduct leading to criminal acts.</ListItem>
+                                    <ListItem>Acts which transmit (harmful) false information 
+                                        (Especially posing as or lying to the site staff)</ListItem>
+                                    <ListItem>Posting personal information that may be 
+                                        an invasion of privacy.</ListItem>
+                                </List>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleModal}>Agree</Button>
+                        </DialogActions>
+                    </Dialog>
+                </Grid>}
             </AuthUserContext.Consumer >
         );
     }
@@ -102,7 +151,7 @@ const UserList = ({ users }) => (
 const MessagesBox = ({ messages, users }) => (
     <List component={Paper} className="MessagesBox">
         {Object.keys(messages).map((id) => (
-            <Message { ...users[messages[id].author] } key={id}>
+            <Message {...users[messages[id].author]} key={id}>
                 <ListItemText primary={messages[id].text} secondary={new Date(messages[id].timestamp).toString()}
                     secondaryTypographyProps={{ alignItems: 'right' }}></ListItemText>
             </Message>
@@ -117,7 +166,7 @@ const Message = ({ avatar, username, color, children }) => (
                 <Avatar src={avatar} width="30" height="30" color={color} />
             </ListItemAvatar>
             <Typography variant="subheading" align="center" component="p"
-                        gutterBottom={true}>
+                gutterBottom={true}>
                 {username}
             </Typography>
         </Paper>
