@@ -8,6 +8,9 @@ import { db, auth } from '../helpers';
 import withAuthorization from './withAuthorization';
 import AuthUserContext from './AuthUserContext';
 import Avatar from './avatar';
+import FileUploader from './FileUploader';
+import Multimedia from './Multimedia';
+import { forEach } from '@firebase/util';
 
 class Chat extends Component {
     constructor(props) {
@@ -17,6 +20,7 @@ class Chat extends Component {
             users: null,
             members: null,
             inputMessage: '',
+            inputFile: null,
             openModal: false,
             messages: [],
         };
@@ -26,9 +30,17 @@ class Chat extends Component {
     }
 
     componentWillMount() {
-        db.onceGetUsers().then(snapshot =>
-            this.setState({ users: snapshot.val() })
-        );
+        db.onGetMembersActives(members => {
+            const newMembers = members.val();
+            return db.onceGetUsers().then(users => {
+                const registeredUsers = users.val();
+                const newUsers = {};
+                forEach(newMembers, (key) => {
+                    newUsers[key] = registeredUsers[key];
+                });
+                this.setState({users: newUsers})
+            });
+        })
         db.onGetMessages(snapshot => {
             this.setState({ messages: snapshot.val() })
         });
@@ -40,7 +52,7 @@ class Chat extends Component {
             author: currentUser.uid,
             text: this.state.inputMessage,
             timestamp: date.getTime(),
-            file: '',
+            file: this.state.inputFile,
         };
         db.doCreateMessage(dataMessage).then(response => {
             this.setState({
@@ -51,8 +63,8 @@ class Chat extends Component {
         });
     }
 
-    logout(evt) {
-        evt.preventDefault();
+    logout(currentUser) {
+        db.createMembersActives(currentUser.uid, false)
         auth.doSignOut();
     }
 
@@ -71,8 +83,9 @@ class Chat extends Component {
                         {!!this.state.users && <UserList users={this.state.users} />}
                     </Grid>
                     <Grid item xs={8} sm={6} md={6}>
-                        {(!!this.state.messages && !!this.state.users) &&
-                            <MessagesBox messages={this.state.messages} users={this.state.users} />}
+                        {(!!this.state.messages && !!this.state.users) ?
+                            <MessagesBox messages={this.state.messages} users={this.state.users} />:
+                            <h3 style={{color: "white"}}>No messages yet</h3>}
                     </Grid>
                     <Grid item xs={12} sm={3} md={3}>
                         <Grid container direction="column" justify="center" alignItems="center">
@@ -81,9 +94,13 @@ class Chat extends Component {
                                 Chat rules
                             </Button>
                             <Button type="button" variant="outlined" color="default"
-                                    onClick={this.logout}>
+                                    onClick={() => this.logout(authUser)}>
                                 Log out
                             </Button>
+                            <Grid item xs="6">
+                            <Avatar src="images/firma_light.svg" alt="By Guiller" 
+                                    width="100%" color="black"/>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
@@ -96,11 +113,11 @@ class Chat extends Component {
                                     endAdornment:
                                         <InputAdornment position="end">
                                             <IconButton
-                                                aria-label="Toggle password visibility"
                                                 onClick={() => this.sendMessage(authUser)}
                                             >
                                                 <Icon>send</Icon>
                                             </IconButton>
+                                            <FileUploader onChange={(inputFile) => this.setState({inputFile})}/>
                                         </InputAdornment>
                                 }} />
                         </Message>}
@@ -137,6 +154,10 @@ class Chat extends Component {
 
 const UserList = ({ users }) => (
     <List component={Paper}>
+        <Typography variant="display1" align="center" component="h1"
+            paragraph={true}>
+            Online users
+        </Typography>
         {Object.keys(users).map(key =>
             <ListItem key={key}>
                 <ListItemAvatar>
@@ -152,8 +173,10 @@ const MessagesBox = ({ messages, users }) => (
     <List component={Paper} className="MessagesBox">
         {Object.keys(messages).map((id) => (
             <Message {...users[messages[id].author]} key={id}>
+               <Multimedia file={messages[id].file} />
                 <ListItemText primary={messages[id].text} secondary={new Date(messages[id].timestamp).toString()}
-                    secondaryTypographyProps={{ alignItems: 'right' }}></ListItemText>
+                    secondaryTypographyProps={{ alignItems: 'right' }}>
+                </ListItemText>
             </Message>
         ))}
     </List>

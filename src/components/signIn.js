@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { auth } from '../helpers';
+import { auth, db } from '../helpers';
 import { Grid, FormControl, InputLabel, Input, Button, Snackbar } from '@material-ui/core';
 import { SignUpLink } from './signUp';
 
@@ -40,7 +40,9 @@ class SignInForm extends Component {
         const { email, password } = this.state;
 
         auth.doSignInWithEmailAndPassword(email, password)
-            .then(() => {
+            .then(({user}) => {
+                return db.createMembersActives(user.uid, true);    
+            }).then(() => {
                 this.setState({ ...defaultState });
                 history.push('/chat');
             })
