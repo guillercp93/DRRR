@@ -4,6 +4,7 @@ import {
     ListItemAvatar, ListItemText, TextField, Typography, Dialog, DialogContent,
     DialogContentText, DialogTitle, DialogActions
 } from '@material-ui/core';
+import moment from 'moment';
 import { db, auth } from '../helpers';
 import withAuthorization from './withAuthorization';
 import AuthUserContext from './AuthUserContext';
@@ -173,8 +174,8 @@ const MessagesBox = ({ messages, users }) => (
     <List component={Paper} className="MessagesBox">
         {Object.keys(messages).map((id) => (
             <Message {...users[messages[id].author]} key={id}>
-               <Multimedia file={messages[id].file} />
-                <ListItemText primary={messages[id].text} secondary={new Date(messages[id].timestamp).toString()}
+               { messages[id].file && <Multimedia file={messages[id].file} /> }
+                <ListItemText primary={messages[id].text} secondary={moment(messages[id].timestamp).format('LT')}
                     secondaryTypographyProps={{ alignItems: 'right' }}>
                 </ListItemText>
             </Message>

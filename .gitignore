@@ -33,3 +33,13 @@ node_modules
 # environment variables
 .env
 .env.*
+
+# build folder
+build
+
+# firebase data
+.firebase
+.firebaserc
+database.rules.json
+firebase.json
+storage.rules
