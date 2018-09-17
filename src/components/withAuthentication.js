@@ -1,5 +1,5 @@
 import React from "react";
-import { firebase } from '../helpers';
+import { auth, firebase, db } from '../helpers';
 import AuthUserContext from "./AuthUserContext";
 
 /**
@@ -26,6 +26,12 @@ const withAuthentication = (Component) => {
                     authUser: value,
                 });
             });
+            window.onbeforeunload = (evt) => {
+                if(!!this.state.authUser) {
+                    db.createMembersActives(this.state.authUser.uid, false);
+                    auth.doSignOut();
+                }
+            };
         }
 
         render() {

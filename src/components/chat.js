@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     Button, Grid, Icon, IconButton, InputAdornment, Paper, List, ListItem,
     ListItemAvatar, ListItemText, TextField, Typography, Dialog, DialogContent,
-    DialogContentText, DialogTitle, DialogActions
+    DialogContentText, DialogTitle, DialogActions, CircularProgress
 } from '@material-ui/core';
 import moment from 'moment';
 import { db, auth } from '../helpers';
@@ -24,24 +24,22 @@ class Chat extends Component {
             inputFile: null,
             openModal: false,
             messages: [],
+            loading: false,
         };
 
         this.sendMessage = this.sendMessage.bind(this);
         this.handleModal = this.handleModal.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         db.onGetMembersActives(members => {
             const newMembers = members.val();
-            return db.onceGetUsers().then(users => {
-                const registeredUsers = users.val();
-                const newUsers = {};
-                forEach(newMembers, (key) => {
-                    newUsers[key] = registeredUsers[key];
-                });
-                this.setState({users: newUsers})
-            });
-        })
+            this.setState({members: newMembers});
+        });
+        db.onceGetUsers().then(users => {
+            const registeredUsers = users.val();
+            this.setState({users: registeredUsers});
+        });
         db.onGetMessages(snapshot => {
             this.setState({ messages: snapshot.val() })
         });
@@ -55,9 +53,12 @@ class Chat extends Component {
             timestamp: date.getTime(),
             file: this.state.inputFile,
         };
+        this.setState({loading: true});
         db.doCreateMessage(dataMessage).then(response => {
             this.setState({
                 inputMessage: '',
+                inputFile: null,
+                loading: false,
             });
         }).catch(error => {
             console.error(error);
@@ -65,7 +66,7 @@ class Chat extends Component {
     }
 
     logout(currentUser) {
-        db.createMembersActives(currentUser.uid, false)
+        db.createMembersActives(currentUser.uid, false);
         auth.doSignOut();
     }
 
@@ -81,7 +82,8 @@ class Chat extends Component {
                 {authUser => <Grid container spacing={24} justify="space-evenly"
                     alignItems="stretch">
                     <Grid item xs={4} sm={3} md={3}>
-                        {!!this.state.users && <UserList users={this.state.users} />}
+                        {(!!this.state.users && !!this.state.members) && 
+                            <UserList users={this.state.users} members={this.state.members}/>}
                     </Grid>
                     <Grid item xs={8} sm={6} md={6}>
                         {(!!this.state.messages && !!this.state.users) ?
@@ -92,11 +94,12 @@ class Chat extends Component {
                         <Grid container direction="column" justify="center" alignItems="center">
                             <Button type="button" variant="outlined" color="default"
                                     onClick={this.handleModal}>
+                                <Icon>list_alt</Icon>
                                 Chat rules
                             </Button>
                             <Button type="button" variant="outlined" color="default"
                                     onClick={() => this.logout(authUser)}>
-                                Log out
+                                <Icon>exit_to_app</Icon>Log out
                             </Button>
                             <Grid item xs="6">
                             <Avatar src="images/firma_light.svg" alt="By Guiller" 
@@ -109,6 +112,7 @@ class Chat extends Component {
                             <TextField id="input-message" label="Write your message"
                                 multiline margin="normal" fullWidth
                                 value={this.state.inputMessage}
+                                helperText={this.state.inputFile ? this.state.inputFile.name: null}
                                 onChange={(evt) => this.setState({ inputMessage: evt.target.value })}
                                 InputProps={{
                                     endAdornment:
@@ -116,7 +120,9 @@ class Chat extends Component {
                                             <IconButton
                                                 onClick={() => this.sendMessage(authUser)}
                                             >
-                                                <Icon>send</Icon>
+                                                {this.state.loading ? 
+                                                    <CircularProgress /> :
+                                                    <Icon>send</Icon>}
                                             </IconButton>
                                             <FileUploader onChange={(inputFile) => this.setState({inputFile})}/>
                                         </InputAdornment>
@@ -153,14 +159,15 @@ class Chat extends Component {
     }
 }
 
-const UserList = ({ users }) => (
+const UserList = ({ users, members }) => (
     <List component={Paper}>
         <Typography variant="display1" align="center" component="h1"
             paragraph={true}>
+            <Icon fontSize="large">account_circle</Icon>
             Online users
         </Typography>
         {Object.keys(users).map(key =>
-            <ListItem key={key}>
+            members[key] && <ListItem key={key}>
                 <ListItemAvatar>
                     <Avatar src={users[key].avatar} width="25" height="25" color={users[key].color} />
                 </ListItemAvatar>
@@ -174,7 +181,7 @@ const MessagesBox = ({ messages, users }) => (
     <List component={Paper} className="MessagesBox">
         {Object.keys(messages).map((id) => (
             <Message {...users[messages[id].author]} key={id}>
-               { messages[id].file && <Multimedia file={messages[id].file} /> }
+               { messages[id].file && <Multimedia file={messages[id].file} text={messages[id].text} /> }
                 <ListItemText primary={messages[id].text} secondary={moment(messages[id].timestamp).format('LT')}
                     secondaryTypographyProps={{ alignItems: 'right' }}>
                 </ListItemText>

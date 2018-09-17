@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { auth, db } from '../helpers';
-import { Grid, FormControl, InputLabel, Input, Button, Snackbar } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Input, Button, Snackbar, InputAdornment, Icon } from '@material-ui/core';
 import { SignUpLink } from './signUp';
 
 const defaultState = {
@@ -80,12 +80,14 @@ class SignInForm extends Component {
                 <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="email" margin="dense" style={{ 'color': 'white !important' }}>Email Address</InputLabel>
                     <Input type="email" id="email" name="email" autoComplete="email" autoFocus
-                        onChange={this.setField} onInvalid={this.checkField} error={!this.state.email} />
+                        onChange={this.setField} onInvalid={this.checkField} error={!this.state.email}
+                        startAdornment={<InputAdornment position="start"><Icon>email</Icon></InputAdornment>} />
                 </FormControl>
                 <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="password">Password (from 6 to 15 characters)</InputLabel>
                     <Input type="password" id="password" name="password" autoComplete="current-password"
                         inputProps={{ minLength: 6, maxLength: 15 }}
+                        startAdornment={<InputAdornment position="start"><Icon>lock</Icon></InputAdornment>}
                         onChange={this.setField} onInvalid={this.checkField} error={!this.state.password} />
                 </FormControl>
                 <Button type="submit" variant="outlined" color="default">

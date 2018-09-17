@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { HuePicker } from 'react-color';
-import { Grid, Button, FormControl, InputLabel, Input, Snackbar } from '@material-ui/core';
+import { Grid, Button, FormControl, InputLabel, Input, Snackbar, InputAdornment, Icon } from '@material-ui/core';
 import Avatar from './avatar';
 import { auth, db } from '../helpers';
 
@@ -108,43 +108,53 @@ class SignUpForm extends Component {
                 <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
                     <Grid item xs={6} sm={6} md={6} margin="normal">
                         <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
-                        <Grid item xs={12} sm={12} md={12} margin="normal">
-                            <Avatar src={this.state.avatar} width="150" height="150" color={this.state.color} />
-                        </Grid>
-                        {
-                            [...Array(14).keys()].map(number => {
-                                return (
-                                    <Grid item xs={2} sm={2} md={2} margin="normal" key={number}>
-                                        <Avatar src={`/images/avatars/${number + 1}.png`} width="50"
-                                                color={this.state.color} height="50"
-                                                onClick={() => this.setState({avatar: `/images/avatars/${number + 1}.png`})} />
-                                    </Grid>
-                                );
-                            })
-                        }
+                            <Grid item xs={12} sm={12} md={12} margin="normal" style={{textAlign: "center"}}>
+                                <Avatar src={this.state.avatar} width="150" 
+                                        height="150" color={this.state.color} />
+                            </Grid>
+                            {
+                                [...Array(14).keys()].map(number => {
+                                    return (
+                                        <Grid item xs={2} sm={2} md={2} margin="normal" key={number}>
+                                            <Avatar src={`/images/avatars/${number + 1}.png`} width="50"
+                                                    color={this.state.color} height="50"
+                                                    onClick={() => this.setState({avatar: `/images/avatars/${number + 1}.png`})} />
+                                        </Grid>
+                                    );
+                                })
+                            }
                         </Grid>
                     </Grid>
                     <Grid item xs={6} sm={6} md={6} margin="normal">
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="username" margin="dense" style={{ 'color': 'white !important' }}>Username (from 3 to 10 characters)</InputLabel>
+                            <InputLabel htmlFor="username" margin="dense" style={{ 'color': 'white !important' }}>
+                                Username (from 3 to 10 characters)
+                            </InputLabel>
                             <Input type="username" id="username" name="username" autoComplete="username" autoFocus
-                                inputProps={{ pattern: "([A-Za-z0-9_]+){3,10}", title: 'The username must have from 3 to 10 characters, uppercase and lowercase, underscore character.' }}
+                                startAdornment={<InputAdornment position="start"><Icon>person</Icon></InputAdornment>}
+                                inputProps={{ pattern: "([A-Za-z0-9_]+){3,10}", 
+                                title: 'The username must have from 3 to 10 characters, uppercase and lowercase, underscore character.' }}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.username} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="email" margin="dense" style={{ 'color': 'white !important' }}>Email Address</InputLabel>
+                            <InputLabel htmlFor="email" margin="dense" style={{ 'color': 'white !important' }}>
+                                Email Address
+                            </InputLabel>
                             <Input type="email" id="email" name="email" autoComplete="email"
+                                startAdornment={<InputAdornment position="start"><Icon>email</Icon></InputAdornment>}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.email} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="passwordOne">Password (from 6 to 15 characters)</InputLabel>
                             <Input type="password" id="passwordOne" name="passwordOne" autoComplete="current-password"
+                                startAdornment={<InputAdornment position="start"><Icon>lock</Icon></InputAdornment>}
                                 inputProps={{ minLength: 6, maxLength: 15 }}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.passwordOne} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="passwordTwo">Repeat password</InputLabel>
                             <Input type="password" id="passwordTwo" name="passwordTwo" autoComplete="current-password"
+                                startAdornment={<InputAdornment position="start"><Icon>lock</Icon></InputAdornment>}
                                 inputProps={{ minLength: 6, maxLength: 15 }}
                                 onChange={this.setField} onInvalid={this.setInvalidField} error={!this.state.passwordTwo} />
                         </FormControl>
