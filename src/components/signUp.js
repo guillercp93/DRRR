@@ -21,6 +21,9 @@ const defaultState = {
  */
 const SignUp = ({ history }) => (
     <Grid container direction="column" justify="space-between" alignItems="stretch">
+        <Grid item xs={12} sm={12} md={12} style={{ 'textAlign': 'center' }}>
+            <img src="/images/logo.jpg" alt="dollars" className="secundary-logo"/>
+        </Grid>
         <Grid item xs={12} sm={12} md={12} margin="normal">
             <SignUpForm history={history} />
         </Grid>
@@ -104,9 +107,9 @@ class SignUpForm extends Component {
                         !this.state.passwordOne;
 
         return (
-            <form className="signUpForm" onSubmit={this.onSubmitEvent} style={{ padding: '5% 10%' }}>
+            <form className="signUpForm" onSubmit={this.onSubmitEvent}>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
-                    <Grid item xs={6} sm={6} md={6} margin="normal">
+                    <Grid item xs={12} sm={6} md={6} margin="normal">
                         <Grid container direction="row" justify="center" alignItems="center" spacing={24}>
                             <Grid item xs={12} sm={12} md={12} margin="normal" style={{textAlign: "center"}}>
                                 <Avatar src={this.state.avatar} width="150" 
@@ -115,7 +118,7 @@ class SignUpForm extends Component {
                             {
                                 [...Array(14).keys()].map(number => {
                                     return (
-                                        <Grid item xs={2} sm={2} md={2} margin="normal" key={number}>
+                                        <Grid item xs={3} sm={2} md={2} margin="normal" key={number}>
                                             <Avatar src={`/images/avatars/${number + 1}.png`} width="50"
                                                     color={this.state.color} height="50"
                                                     onClick={() => this.setState({avatar: `/images/avatars/${number + 1}.png`})} />
@@ -125,9 +128,9 @@ class SignUpForm extends Component {
                             }
                         </Grid>
                     </Grid>
-                    <Grid item xs={6} sm={6} md={6} margin="normal">
+                    <Grid item xs={12} sm={6} md={6} margin="normal">
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="username" margin="dense" style={{ 'color': 'white !important' }}>
+                            <InputLabel htmlFor="username" margin="normal" style={{ 'color': 'white !important' }}>
                                 Username (from 3 to 10 characters)
                             </InputLabel>
                             <Input type="username" id="username" name="username" autoComplete="username" autoFocus
@@ -160,13 +163,18 @@ class SignUpForm extends Component {
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="color">Color</InputLabel>
-                            <HuePicker name="color" color={this.state.color}
+                            <HuePicker name="color" color={this.state.color} width="100%"
                                 onChangeComplete={(color, evt) => this.setState({ color: color.hex })} />
                         </FormControl>
-                        <FormControl margin="normal" required fullWidth>
+                        <FormControl margin="normal" style={{textAlign: 'center'}} fullWidth>
                             <Button type="submit" variant="outlined" color="default" disabled={disabled}>
                                 Sign up
                             </Button>
+                            <Link to="/">
+                                <Button type="button" variant="outlined" color="default">
+                                    Back
+                                </Button>
+                            </Link>
                         </FormControl>
                         <Snackbar name="error" open={this.state.error !== ''} autoHideDuration={9000}
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

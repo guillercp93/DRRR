@@ -1,10 +1,14 @@
+audio {
+  display: none;
+}
+
 button {
   margin: 10px auto !important;
   border: 3px solid white !important;
 }
 
 .App {
-  margin: 2% 10%;
+  margin: 5%;
 }
 
 .signInForm {
@@ -23,6 +27,18 @@ button {
 .Avatar>img {
   border: 5px solid whitesmoke;
   border-radius: 10px;
+}
+
+.primary-logo {
+  max-width: 100%;
+  height: auto;
+  margin: 10px;
+}
+
+.secundary-logo {
+  max-width: 30%;
+  height: auto;
+  margin: 10px;
 }
 
 .Avatar:hover {
@@ -106,4 +122,23 @@ button {
 
 #input-message:focus {
   color: white;
+}
+
+@media only screen and (min-width: 768px) {
+  .App {
+    margin: 2% 10%;
+  }
+  
+  .secundary-logo {
+    max-width: 6.5%;
+  }
+  
+  .signInForm {
+    margin: auto 30%;
+    text-align: center;
+  }
+
+  .signUpForm {
+    padding: 5% 10%;
+  }
 }

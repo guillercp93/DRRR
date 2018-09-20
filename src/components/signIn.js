@@ -13,7 +13,7 @@ const defaultState = {
 const SignIn = ({ history }) => (
     <Grid container direction="column" justify="space-between" alignItems="stretch" spacing={16}>
         <Grid item xs={12} sm={12} md={12} style={{ 'textAlign': 'center' }}>
-            <img src="/images/logo.jpg" alt="dollars" />
+            <img src="/images/logo.jpg" alt="dollars" className="primary-logo"/>
         </Grid>
         <Grid container direction="row" justify="space-between" alignItems="stretch" spacing={16}>
             <Grid item xs={12} sm={12} md={12} style={{ 'textAlign': 'center' }}>
@@ -76,7 +76,7 @@ class SignInForm extends Component {
             </span>
         );
         return (
-            <form className="signInForm" onSubmit={this.onSubmitEvent} style={{ 'margin': 'auto 30%', 'textAlign': "center" }}>
+            <form className="signInForm" onSubmit={this.onSubmitEvent}>
                 <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="email" margin="dense" style={{ 'color': 'white !important' }}>Email Address</InputLabel>
                     <Input type="email" id="email" name="email" autoComplete="email" autoFocus
