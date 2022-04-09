@@ -6,7 +6,7 @@
     "@material-ui/core": "^3.0.1",
     "firebase": "^7.22.0",
     "global": "^4.3.2",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "react": "^16.4.2",
     "react-color": "^2.14.1",
     "react-dom": "^16.4.2",
