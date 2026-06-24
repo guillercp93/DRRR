@@ -21,8 +21,9 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
           {messages && Object.keys(users).length > 0 ? (
             messageKeys.length > 0 ? (
               [...messageKeys].reverse().map((id) => {
-                const msg = messages[id];
-                const u = users[msg.author];
+                const msg = Object.hasOwn(messages, id) ? messages[id as keyof typeof messages] : null;
+                if (!msg) return null;
+                const u = Object.hasOwn(users, msg.author) ? users[msg.author as keyof typeof users] : undefined;
                 const isOwn = currentUserId === msg.author;
                 return (
                   <MessageBubble
@@ -40,7 +41,7 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
             <div className={styles.empty}>Tuning in…</div>
           )}
         </div>
-        {currentUserId && users[currentUserId] && (
+        {currentUserId && Object.hasOwn(users, currentUserId) && (
           <ChatInput onSend={onSendMessage} />
         )}
       </main>

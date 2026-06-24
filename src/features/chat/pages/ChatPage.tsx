@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/contexts/AuthContext';
+import { useAuth } from '../../auth/contexts/useAuth';
 import { useRequireAuth } from '../../auth/hooks/useRequireAuth';
 import { doSignOut } from '../../auth/services/authService';
 import { createMembersActives, doCreateMessage } from '../services/chatService';

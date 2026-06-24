@@ -1,21 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { User } from 'firebase/auth';
 import { onAuthStateChangedListener } from '../services/authService';
 import { createMembersActives } from '../../chat/services/chatService';
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-});
-
-export const useAuth = (): AuthContextType => {
-  return useContext(AuthContext);
-};
+import { AuthContext } from './authContext';
 
 interface AuthProviderProps {
   children: ReactNode;

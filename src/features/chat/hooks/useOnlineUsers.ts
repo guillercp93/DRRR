@@ -23,7 +23,7 @@ export const useOnlineUsers = () => {
     };
   }, []);
 
-  const onlineCount = Object.keys(users).filter((k) => members[k]).length;
+  const onlineCount = Object.keys(users).filter((k) => Object.hasOwn(members, k) && members[k as keyof typeof members]).length;
 
   return { users, members, onlineCount };
 };

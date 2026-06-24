@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AuthProvider } from '../features/auth/contexts/AuthContext';
+import { AuthProvider } from '../features/auth/contexts/AuthProvider';
 import SignInPage from '../features/auth/pages/SignInPage';
 import SignUpPage from '../features/auth/pages/SignUpPage';
 import ChatPage from '../features/chat/pages/ChatPage';

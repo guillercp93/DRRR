@@ -55,3 +55,9 @@ storage.rules
 # Vite generated types
 vite.config.d.ts
 vite.config.js
+
+# Keys and certificates
+*.pem
+*.key
+DRRR.pem
+
