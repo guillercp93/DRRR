@@ -37,9 +37,21 @@ node_modules
 # build folder
 build
 
+# dist folder
+dist
+
 # firebase data
 .firebase
 .firebaserc
 database.rules.json
 firebase.json
 storage.rules
+
+# IA folders
+.atl
+# TypeScript build info
+*.tsbuildinfo
+
+# Vite generated types
+vite.config.d.ts
+vite.config.js
