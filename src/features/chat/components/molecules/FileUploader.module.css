@@ -1,16 +1,22 @@
 .uploaderBtn {
   color: var(--text-secondary);
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: color 0.2s, background 0.2s, transform 0.15s;
 }
 
 .uploaderBtn:hover {
   color: var(--accent);
+  background: rgba(255, 215, 0, 0.07);
+  transform: scale(1.08);
+}
+
+.uploaderBtn:active {
+  transform: scale(0.95);
 }
 
 .uploaderBtn input {
@@ -18,9 +24,11 @@
 }
 
 .active {
-  color: #22c55e;
+  color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.08);
 }
 
 .loaded {
   color: var(--accent);
+  background: rgba(255, 215, 0, 0.08);
 }

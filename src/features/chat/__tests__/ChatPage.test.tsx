@@ -65,6 +65,6 @@ describe('ChatPage', () => {
 
   it('renders the message input field', () => {
     renderChat();
-    expect(screen.getByPlaceholderText(/write your message/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/transmit a message/i)).toBeInTheDocument();
   });
 });

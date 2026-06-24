@@ -1,8 +1,8 @@
 .msg {
   display: flex;
   gap: 10px;
-  max-width: 80%;
-  animation: msgIn 0.25s ease-out both;
+  max-width: 78%;
+  animation: msgIn 0.3s ease-out both;
 }
 
 .own {
@@ -11,17 +11,18 @@
 }
 
 @keyframes msgIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .avatarWrap {
   flex-shrink: 0;
+  margin-top: 4px;
 }
 
 .avatarWrap img {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 .body {
@@ -32,12 +33,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  padding-left: 2px;
 }
 
 .author {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   color: var(--text-secondary);
 }
@@ -47,40 +49,66 @@
 }
 
 .time {
-  font-size: 0.65rem;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
   color: var(--text-muted);
 }
 
 .bubble {
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.55;
   word-break: break-word;
   position: relative;
+}
+
+.bubble::before {
+  position: absolute;
+  top: 0;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  opacity: 0.4;
+  letter-spacing: 0.05em;
 }
 
 .otherBubble {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-bottom-left-radius: 4px;
-  color: var(--text-primary);
+  border-bottom-left-radius: 3px;
+  color: #d4d4d4;
+}
+
+.otherBubble::before {
+  content: '<<';
+  left: -22px;
+  color: var(--text-muted);
+  line-height: 44px;
 }
 
 .ownBubble {
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-bottom-right-radius: 4px;
+  background: rgba(255, 215, 0, 0.07);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-bottom-right-radius: 3px;
   color: var(--text-primary);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.04), inset 0 0 20px rgba(255, 215, 0, 0.02);
+}
+
+.ownBubble::before {
+  content: '>>';
+  right: -22px;
+  color: var(--accent-dim);
+  line-height: 44px;
 }
 
 .multimedia {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .multimedia img {
   max-width: 100%;
-  border-radius: 6px;
+  border-radius: 4px;
   display: block;
 }
 

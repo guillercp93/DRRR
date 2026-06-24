@@ -2,7 +2,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -10,24 +10,47 @@
 
 .panel .MuiButton-root {
   width: 100%;
-  font-size: 0.85rem;
-  padding: 6px 16px;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sectionLabel {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
 }
 
 .signature {
   margin-top: auto;
   text-align: center;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid var(--border);
 }
 
 .signature img {
-  height: 20px;
+  height: 18px;
   width: auto;
-  opacity: 0.3;
+  opacity: 0.2;
   transition: opacity 0.3s;
 }
 
 .signature img:hover {
-  opacity: 0.6;
+  opacity: 0.5;
 }

@@ -18,6 +18,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const hasContent = inputMessage.trim() !== '' || inputFile !== null;
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim() && !inputFile) return;
     setLoading(true);
@@ -33,7 +35,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
   const handleKeyDown = (evt: React.KeyboardEvent) => {
     if (evt.key === 'Enter' && !evt.shiftKey) {
       evt.preventDefault();
-      if ((inputMessage.trim() || inputFile) && !loading) {
+      if (hasContent && !loading) {
         handleSendMessage();
       }
     }
@@ -41,25 +43,34 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
 
   return (
     <div className={styles.area}>
-      <div className={styles.row}>
-        <div className={styles.fileWrap}>
-          <FileUploader onChange={(file: File) => setInputFile(file)} />
-        </div>
-        <TextField
-          placeholder="Write your message…"
-          multiline
-          maxRows={4}
-          value={inputMessage}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => setInputMessage(e.target.value)}
-          slotProps={{
-            input: {
-              endAdornment: (
+      <TextField
+        className={styles.field}
+        placeholder="Transmit a message…"
+        multiline
+        maxRows={4}
+        value={inputMessage}
+        onKeyDown={handleKeyDown}
+        onChange={(e) => setInputMessage(e.target.value)}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <FileUploader onChange={(file: File) => setInputFile(file)} />
+              </InputAdornment>
+            ),
+            endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     onClick={handleSendMessage}
-                    disabled={loading || (!inputMessage.trim() && !inputFile)}
+                    disabled={loading || !hasContent}
                     size="small"
+                    className={
+                      loading
+                        ? undefined
+                        : hasContent
+                          ? `${styles.sendBtn} ${styles.sendActive}`
+                          : styles.sendBtn
+                    }
                   >
                     {loading ? <CircularProgress size={20} /> : <SendIcon />}
                   </IconButton>
@@ -68,9 +79,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
             },
           }}
         />
-      </div>
       {inputFile && (
-        <div className={styles.fileLabel}>{inputFile.name}</div>
+        <div className={styles.fileLabel}>
+          <span>◆</span> {inputFile.name}
+        </div>
       )}
     </div>
   );

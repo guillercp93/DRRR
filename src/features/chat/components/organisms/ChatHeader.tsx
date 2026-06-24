@@ -9,9 +9,14 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ onlineCount }) => {
     <header className={styles.header}>
       <img src="/images/logo.jpg" alt="dollars" className={styles.logo} />
       <span className={styles.title}>Dollars Chat</span>
+      <span className={styles.freq}>FREQ: DOLLARS</span>
       <div className={styles.status}>
-        <span className={styles.dot} />
-        <span>{onlineCount} online</span>
+        <div className={styles.signalBars}>
+          <span className={styles.bar} />
+          <span className={styles.bar} />
+          <span className={styles.bar} />
+        </div>
+        <span className={styles.statusText}>{onlineCount} online</span>
       </div>
     </header>
   );

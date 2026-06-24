@@ -13,14 +13,14 @@ const UserPanel: React.FC<UserPanelProps> = ({ users, members }) => {
     <aside className={styles.panel}>
       <h2 className={styles.title}>
         <PeopleIcon />
-        Online
+        SIGNAL DETECTED
       </h2>
       <ul className={styles.list}>
         {Object.keys(users).map(
           (key) =>
             members[key] && (
               <li key={key}>
-                <Avatar src={users[key].avatar} width={24} height={24} color={users[key].color} />
+                <Avatar src={users[key].avatar} width={22} height={22} color={users[key].color} />
                 <span className={styles.username}>{users[key].username}</span>
               </li>
             )

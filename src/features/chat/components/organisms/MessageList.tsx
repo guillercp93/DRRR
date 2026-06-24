@@ -34,10 +34,10 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                 );
               })
             ) : (
-              <div className={styles.empty}>No messages yet</div>
+              <div className={styles.empty}>Awaiting signal…</div>
             )
           ) : (
-            <div className={styles.empty}>Loading messages...</div>
+            <div className={styles.empty}>Tuning in…</div>
           )}
         </div>
         {currentUserId && users[currentUserId] && (
