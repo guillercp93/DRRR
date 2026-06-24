@@ -1,4 +1,4 @@
-import React from 'react';
+import type { CSSProperties } from 'react';
 
 interface AvatarProps {
   src: string;
@@ -10,23 +10,13 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt = '', width, height, color, onClick }) => {
-  const style: React.CSSProperties = {};
-  if (onClick) {
-    style.cursor = 'pointer';
-  }
-  if (color) {
-    style.backgroundColor = color;
-  }
+  const style: CSSProperties = {};
+  if (onClick) style.cursor = 'pointer';
+  if (color) style.backgroundColor = color;
 
   return (
     <figure className="Avatar" onClick={onClick}>
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        style={style}
-      />
+      <img src={src} alt={alt} width={width} height={height} style={style} />
     </figure>
   );
 };

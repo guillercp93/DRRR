@@ -1,23 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import SignIn from '../SignIn';
+import SignInPage from '../pages/SignInPage';
 
-// Mock Firebase auth
-vi.mock('../../lib/auth', () => ({
+vi.mock('../services/authService', () => ({
   doSignInWithEmailAndPassword: vi.fn(),
 }));
 
-// Mock Firebase db
-vi.mock('../../lib/db', () => ({
+vi.mock('../../chat/services/chatService', () => ({
   createMembersActives: vi.fn(),
 }));
 
 const renderSignIn = () =>
   render(
     <BrowserRouter>
-      <SignIn />
+      <SignInPage />
     </BrowserRouter>
   );
 

@@ -1,0 +1,26 @@
+.uploaderBtn {
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.uploaderBtn:hover {
+  color: var(--accent);
+}
+
+.uploaderBtn input {
+  display: none;
+}
+
+.active {
+  color: #22c55e;
+}
+
+.loaded {
+  color: var(--accent);
+}

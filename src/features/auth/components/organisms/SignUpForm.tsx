@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { HuePicker } from 'react-color';
 import {
   TextField,
@@ -11,22 +11,18 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import Avatar from './Avatar';
-import { doCreateUserWithEmailAndPassword } from '../lib/auth';
-import { doCreateUser } from '../lib/db';
+import Avatar from '../../../../shared/components/atoms/Avatar';
+import { doCreateUserWithEmailAndPassword } from '../../services/authService';
+import { doCreateUser } from '../../../chat/services/chatService';
 
 const AVATAR_COUNT = 14;
 const avatarNumbers = Array.from({ length: AVATAR_COUNT }, (_, i) => i + 1);
 
-export const SignUpLink: React.FC = () => (
-  <Link to="/signup" style={{ textDecoration: 'none' }}>
-    <Button type="button" variant="outlined" fullWidth>
-      Sign up
-    </Button>
-  </Link>
-);
+interface SignUpFormProps {
+  onSuccess: () => void;
+}
 
-const SignUpForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [passwordOne, setPasswordOne] = useState('');
@@ -220,22 +216,4 @@ const SignUpForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   );
 };
 
-const SignUp: React.FC = () => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="signup-page">
-      <img
-        src="/images/logo.jpg"
-        alt="dollars"
-        className="auth-logo"
-      />
-      <div className="signup-card">
-        <h1>Join the Dollars</h1>
-        <SignUpForm onSuccess={() => navigate('/')} />
-      </div>
-    </div>
-  );
-};
-
-export default SignUp;
+export default SignUpForm;

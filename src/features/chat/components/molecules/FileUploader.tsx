@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import {
   IconButton,
   Dialog,
@@ -7,30 +7,23 @@ import {
   DialogContentText,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import styles from './FileUploader.module.css';
 
 interface FileUploaderProps {
   onChange: (file: File) => void;
-  baseColor?: string;
-  activeColor?: string;
-  overlayColor?: string;
 }
 
 const ACCEPTED_TYPES = /(image)?(audio)?(text)?\/+/;
-const MAX_SIZE = 1_000_000; // 1MB
+const MAX_SIZE = 1_000_000;
 
-const FileUploader: React.FC<FileUploaderProps> = ({
-  onChange,
-  baseColor = 'white',
-  activeColor = 'green',
-  overlayColor = 'rgba(255,255,255,0.3)',
-}) => {
+const FileUploader: React.FC<FileUploaderProps> = ({ onChange }) => {
   const [active, setActive] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = (file: File) => {
+  const handleFile = useCallback((file: File) => {
     if (!file.type.match(ACCEPTED_TYPES)) {
       setMessage(`The file is not an image, text or audio: ${file.type}`);
       setOpenModal(true);
@@ -47,7 +40,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     setMessage(`The file "${file.name}" is ready to be sent.`);
     setOpenModal(true);
     onChange(file);
-  };
+  }, [onChange]);
 
   const handleDragEnter = () => setActive(true);
   const handleDragLeave = () => setActive(false);
@@ -70,20 +63,16 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     }
   };
 
-  const borderColor = active ? activeColor : baseColor;
-  const iconColor = active ? activeColor : loaded ? overlayColor : baseColor;
-
   return (
     <>
       <label
-        className={`uploader-btn ${loaded ? 'loaded' : ''}`}
+        className={`${styles.uploaderBtn} ${loaded ? styles.loaded : ''} ${active ? styles.active : ''}`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        style={{ outlineColor: borderColor }}
       >
-        <IconButton component="span" sx={{ color: iconColor }}>
+        <IconButton component="span">
           <CloudUploadIcon />
         </IconButton>
         <input

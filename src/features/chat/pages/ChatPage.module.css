@@ -1,0 +1,36 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+  position: relative;
+}
+
+.page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle at center top, rgba(255, 215, 0, 0.02) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 180px;
+  gap: 16px;
+  padding: 16px 0;
+  flex: 1;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

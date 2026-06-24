@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FileUploader from '../FileUploader';
+import FileUploader from '../components/molecules/FileUploader';
 
 describe('FileUploader', () => {
   it('renders upload button', () => {

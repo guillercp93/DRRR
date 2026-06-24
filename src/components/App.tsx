@@ -1,11 +1,10 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AuthProvider } from '../contexts/AuthContext';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Chat from './Chat';
+import { AuthProvider } from '../features/auth/contexts/AuthContext';
+import SignInPage from '../features/auth/pages/SignInPage';
+import SignUpPage from '../features/auth/pages/SignUpPage';
+import ChatPage from '../features/chat/pages/ChatPage';
 import './App.css';
 
 const theme = createTheme({
@@ -95,9 +94,9 @@ const App: React.FC = () => {
         <CssBaseline />
         <Router>
           <Routes>
-            <Route path="/" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/chat" element={<Chat />} />
+            <Route path="/" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/chat" element={<ChatPage />} />
           </Routes>
         </Router>
       </ThemeProvider>

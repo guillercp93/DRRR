@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import { doSignInWithEmailAndPassword } from '../lib/auth';
-import { createMembersActives } from '../lib/db';
+import { doSignInWithEmailAndPassword } from '../../services/authService';
+import { createMembersActives } from '../../../chat/services/chatService';
 
 interface SignInFormProps {
   onSuccess: () => void;
@@ -106,25 +106,4 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSuccess }) => {
   );
 };
 
-const SignIn: React.FC = () => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="auth-page">
-      <img
-        src="/images/logo.jpg"
-        alt="dollars"
-        className="auth-logo"
-      />
-      <div className="auth-card">
-        <h1>Enter the Room</h1>
-        <SignInForm onSuccess={() => navigate('/chat')} />
-      </div>
-      <div className="auth-footer">
-        <img src="/images/firma_light.svg" alt="By Guiller" />
-      </div>
-    </div>
-  );
-};
-
-export default SignIn;
+export default SignInForm;

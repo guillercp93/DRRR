@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from 'firebase/auth';
-import { onAuthStateChangedListener } from '../lib/auth';
-import { createMembersActives } from '../lib/db';
+import { onAuthStateChangedListener } from '../services/authService';
+import { createMembersActives } from '../../chat/services/chatService';
 
 interface AuthContextType {
   user: User | null;
@@ -34,7 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  // Handle tab close — sign out and mark inactive
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (user) {
@@ -52,3 +51,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

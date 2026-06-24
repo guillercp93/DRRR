@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import {
   Paper,
   Dialog,
@@ -15,11 +15,7 @@ import {
 } from '@mui/material';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
-
-interface FileData {
-  route: string;
-  type: string;
-}
+import type { FileData } from '../../../../shared/types';
 
 interface MultimediaProps {
   file: FileData;
@@ -35,7 +31,7 @@ const Multimedia: React.FC<MultimediaProps> = ({ file, text, id }) => {
 
   const handleClose = () => setOpen(false);
 
-  const toggleOnPlay = (playing: boolean) => setOnPlay(playing);
+  const toggleOnPlay = useCallback((playing: boolean) => setOnPlay(playing), []);
 
   const playSound = () => {
     const player = audioRef.current;
@@ -54,7 +50,6 @@ const Multimedia: React.FC<MultimediaProps> = ({ file, text, id }) => {
     }
   };
 
-  // Image
   if (file.type.match(/(image)+/)) {
     return (
       <Paper sx={{ textAlign: 'center' }}>
@@ -92,7 +87,6 @@ const Multimedia: React.FC<MultimediaProps> = ({ file, text, id }) => {
     );
   }
 
-  // Audio
   if (file.type.match(/(audio)+/)) {
     return (
       <Card>

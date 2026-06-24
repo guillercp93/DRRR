@@ -1,0 +1,33 @@
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.panel .MuiButton-root {
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 6px 16px;
+}
+
+.signature {
+  margin-top: auto;
+  text-align: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.signature img {
+  height: 20px;
+  width: auto;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.signature img:hover {
+  opacity: 0.6;
+}
